@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <title>AI Candlestick Signal</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #0f172a;
+      color: #e2e8f0;
+      min-height: 100vh;
+      padding: 16px;
+    }
+    .container { max-width: 480px; margin: 0 auto; }
+    h1 { font-size: 1.5rem; text-align: center; margin-bottom: 4px; }
+    .subtitle { text-align: center; color: #94a3b8; font-size: 0.85rem; margin-bottom: 24px; }
+    input {
+      width: 100%;
+      padding: 14px;
+      border-radius: 12px;
+      border: 1px solid #334155;
+      background: #1e293b;
+      color: white;
+      font-size: 16px;
+      margin-bottom: 12px;
+    }
+    button {
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: 12px;
+      background: #3b82f6;
+      color: white;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    button:active { background: #2563eb; }
+    .card {
+      background: #1e293b;
+      border-radius: 16px;
+      padding: 16px;
+      margin-top: 20px;
+    }
+    .signal {
+      font-size: 1.8rem;
+      font-weight: 700;
+      text-align: center;
+      margin: 12px 0;
+    }
+    .buy { color: #22c55e; }
+    .sell { color: #ef4444; }
+    .hold { color: #eab308; }
+    .pattern {
+      background: #0f172a;
+      border-radius: 10px;
+      padding: 12px;
+      margin: 8px 0;
+    }
+    .pattern-name { font-weight: 600; margin-bottom: 4px; }
+    .reason { font-size: 0.9rem; color: #94a3b8; }
+    .tag {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      margin-left: 6px;
+    }
+    .tag-buy { background: #14532d; color: #4ade80; }
+    .tag-sell { background: #7f1d1d; color: #f87171; }
+    footer {
+      text-align: center;
+      margin-top: 30px;
+      font-size: 0.75rem;
+      color: #64748b;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>📈 AI Candlestick Signal</h1>
+    <p class="subtitle">Based on Bald Trader patterns • Mobile Ready</p>
+
+    <input type="text" id="symbol" placeholder="Example: RELIANCE, TCS, BTC" value="RELIANCE">
+    <button onclick="getSignal()">Get Signal</button>
+
+    <div id="result"></div>
+
+    <div class="card" style="margin-top: 24px;">
+      <h3 style="margin-bottom: 12px;">Patterns from the Video</h3>
+      
+      <div class="pattern">
+        <div class="pattern-name">Hammer <span class="tag tag-buy">BUY</span></div>
+        <div class="reason">Long lower shadow in falling market → possible reversal up</div>
+      </div>
+
+      <div class="pattern">
+        <div class="pattern-name">Shooting Star <span class="tag tag-sell">SELL</span></div>
+        <div class="reason">Long upper shadow in rising market → possible reversal down</div>
+      </div>
+
+      <div class="pattern">
+        <div class="pattern-name">Three White Soldiers <span class="tag tag-buy">BUY</span></div>
+        <div class="reason">Three strong green candles → strong uptrend starting</div>
+      </div>
+
+      <div class="pattern">
+        <div class="pattern-name">Three Black Crows <span class="tag tag-sell">SELL</span></div>
+        <div class="reason">Three strong red candles → strong downtrend starting</div>
+      </div>
+
+      <div class="pattern">
+        <div class="pattern-name">Green Marubozu <span class="tag tag-buy">BUY</span></div>
+        <div class="reason">Big green candle, almost no shadows → strong buying</div>
+      </div>
+
+      <div class="pattern">
+        <div class="pattern-name">Red Marubozu <span class="tag tag-sell">SELL</span></div>
+        <div class="reason">Big red candle, almost no shadows → strong selling</div>
+      </div>
+
+      <div class="pattern">
+        <div class="pattern-name">Bullish Engulfing <span class="tag tag-buy">BUY</span></div>
+        <div class="reason">Green candle completely covers previous red → bullish</div>
+      </div>
+
+      <div class="pattern">
+        <div class="pattern-name">Bearish Engulfing <span class="tag tag-sell">SELL</span></div>
+        <div class="reason">Red candle completely covers previous green → bearish</div>
+      </div>
+    </div>
+
+    <footer>
+      Educational only • Not financial advice<br>
+      Based on The.bald.trader video
+    </footer>
+  </div>
+
+  <script>
+    function getSignal() {
+      const symbol = document.getElementById('symbol').value.trim().toUpperCase() || 'RELIANCE';
+      const resultDiv = document.getElementById('result');
+
+      // Simple demo logic (since pure GitHub Pages cannot fetch live Yahoo data easily)
+      const patterns = [
+        { name: "Hammer", type: "BUY", reason
